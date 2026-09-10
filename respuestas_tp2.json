@@ -1,0 +1,88 @@
+{
+  "tp_metadata": {
+    "tp_id": "TSO-2026-TP2",
+    "title": "TP N° 2: Administración de Procesos, Hilos y Planificación de CPU",
+    "catedra": "Teoría de Sistemas Operativos - UNJu Facultad de Ingeniería",
+    "submitted_at": "2026-09-10T17:23:51.283Z"
+  },
+  "student": {
+    "name": "Paola Soledad Cussi",
+    "dni": "35822347 / LIE000197 PUI000144",
+    "career": "Licenciatira en Informatica Educativa. Profesorado universitario en informatica",
+    "github": "paolaCussi"
+  },
+  "answers": {
+    "ej1_segmentos_memoria": {
+      "seg_instrucciones": "TEXT",
+      "seg_globales_inicializadas": "DATA",
+      "seg_variables_dinamicas": "HEAP",
+      "seg_marcos_pila": "STACK",
+      "seg_bss": "STACK"
+    },
+    "ej2_programa_vs_proceso": {
+      "prop_almacenamiento": "PROGRAMA",
+      "prop_contador_programa": "PROCESO",
+      "prop_identificador_pid": "PROGRAMA",
+      "prop_instancias_multiples": "PROCESO",
+      "prop_estado_cambiante": "PROCESO",
+      "prop_pasividad": "PROGRAMA"
+    },
+    "ej3_modelos_estados_evolucion": {
+      "limitacion_2_estados": "opt_no_distingue_io",
+      "solucion_3_estados": "opt_agrego_bloqueado",
+      "proposito_nuevo": "opt_control_admision",
+      "proposito_terminado": "opt_liberacion_recursos"
+    },
+    "ej4_simulador_7_estados": {
+      "trans_quantum_expira": "LISTO",
+      "trans_espera_io": "BLOQUEADO",
+      "trans_falta_memoria": "BLOQUEADO_SUSPENDIDO",
+      "trans_io_termina_swap": "LISTO_SUSPENDIDO",
+      "trans_swap_in": "LISTO",
+      "trans_directa_prohibida": "BLOQUEADO_A_EJECUCION"
+    },
+    "ej5_pcb_vs_bcs_context_switch": {
+      "card_pid": "PCB",
+      "card_program_counter": "PCB",
+      "card_tabla_dispositivos": "BCS",
+      "card_limites_memoria": "PCB",
+      "card_cola_global_planif": "BCS",
+      "card_archivos_abiertos_proceso": "PCB",
+      "concepto_context_switch": "opt_overhead_puro",
+      "cantidad_pcb": "opt_exacto_un_pcb_por_proceso"
+    },
+    "ej6_operaciones_procesos": {
+      "op_fork_retorno": "opt_pid_hijo",
+      "op_exec_espacio": "opt_reemplazo_total",
+      "fenomeno_zombie": "opt_zombie_def",
+      "fenomeno_huerfano": "opt_mueren_inmediato"
+    },
+    "ej7_hilos_vs_procesos": {
+      "res_espacio_direcciones": "COMPARTIDO",
+      "res_variables_globales": "COMPARTIDO",
+      "res_program_counter": "PRIVADO_HILO",
+      "res_registros_cpu": "PRIVADO_HILO",
+      "res_pila_stack": "PRIVADO_HILO",
+      "res_descriptores_archivos": "COMPARTIDO"
+    },
+    "ej8_mecanismos_ipc": {
+      "ipc_velocidad_maxima": "SIGNALS",
+      "ipc_pipes_comunicacion": "PIPE_UNIDIR",
+      "ipc_sincronizacion": "RESP_APLICACION",
+      "ipc_pipes_nombrados": "FIFO_BIDIR_OR_UNRELATED"
+    },
+    "ej9_niveles_y_criterios_planificacion": {
+      "sched_largo_plazo": "ROL_ADMISION",
+      "sched_medio_plazo": "ROL_ADMISION",
+      "sched_corto_plazo": "ROL_DISPATCH",
+      "metrica_turnaround": "DEF_RESPONSE",
+      "metrica_waiting": "DEF_WAITING"
+    },
+    "ej10_simulador_planificacion_cpu": {
+      "planif_fcfs_problema": "opt_efecto_convoy",
+      "planif_rr_quantum": "opt_exceso_context_switch",
+      "planif_sjf_optimo": "opt_minimo_espera",
+      "planif_inanicion_solucion": "opt_envejecimiento"
+    }
+  }
+}
