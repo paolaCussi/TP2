@@ -202,6 +202,58 @@ def print_human_report(results):
     print(" Cátedra Teoría de Sistemas Operativos — UNJu Facultad de Ingeniería 2026")
     print("=" * 75)
 
+def write_github_step_summary(results):
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+    try:
+        student = results.get("student", {})
+        passed = results.get("passed", False)
+        status_badge = "✅ APROBADO" if passed else "❌ REQUIERE REVISIÓN"
+        
+        lines = [
+            "# 🎓 Reporte de Autoevaluación - Cátedra Teoría de Sistemas Operativos",
+            "### Trabajo Práctico N° 2: Administración de Procesos, Hilos y Planificación de CPU",
+            "",
+            f"**Estado:** {status_badge} | **Calificación:** `{results['total_score']} / {results['max_score']} pts` ({results['grade_scale_10']}/10)",
+            "",
+            f"- **Estudiante:** {student.get('name', 'N/A')}",
+            f"- **DNI / Legajo:** {student.get('dni', 'N/A')}",
+            f"- **Carrera:** {student.get('career', 'N/A')}",
+            f"- **Usuario GitHub:** {student.get('github_user', 'N/A')}",
+            f"- **Fecha:** {results.get('submission_time', 'N/A')}",
+            "",
+            "### 📊 Detalle por Ejercicio",
+            "",
+            "| Ejercicio | Puntos Obtenidos | Máx | Estado | Bibliografía / Feedback |",
+            "| :--- | :---: | :---: | :---: | :--- |"
+        ]
+        
+        for ex_id, res in results.get("exercise_results", {}).items():
+            if res["score"] == res["weight"]:
+                st = "✅ Correcto"
+                fb = "—"
+            elif res["score"] > 0:
+                st = f"⚠️ Parcial ({res['percentage']}%)"
+                fb = res.get("feedback", "Revisar conceptos.")
+            else:
+                st = "❌ Discrepancia"
+                fb = res.get("feedback", "Revisar conceptos.")
+            lines.append(f"| `{ex_id}` | **{res['score']}** | {res['weight']} | {st} | {fb} |")
+        
+        lines.append("")
+        if not passed:
+            lines.append("> [!WARNING]")
+            lines.append("> **Tu entrega aún no alcanza los criterios de aprobación.** Consulta los capítulos bibliográficos indicados en la tabla superior, abre `index.html` para ajustar tus respuestas, exporta un nuevo `respuestas_tp2.json` y vuelve a hacer `git push origin main`.")
+        else:
+            lines.append("> [!TIP]")
+            lines.append("> **¡Felicitaciones!** Has resuelto y aprobado satisfactoriamente los ejercicios de este Trabajo Práctico.")
+        
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+    except Exception as e:
+        print(f"[WARN] No se pudo escribir GITHUB_STEP_SUMMARY: {e}", file=sys.stderr)
+
 def main():
     parser = argparse.ArgumentParser(description="Autoevaluador de TP2 - Teoría de Sistemas Operativos (UNJu FI)")
     parser.add_argument("submission", nargs="?", default="respuestas_tp2.json", help="Ruta al archivo respuestas_tp2.json")
@@ -214,6 +266,8 @@ def main():
     rubric_data = load_json(args.rubric)
 
     results = grade_submission(submission_data, rubric_data)
+
+    write_github_step_summary(results)
 
     if args.json:
         print(json.dumps(results, indent=2, ensure_ascii=False))

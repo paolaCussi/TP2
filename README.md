@@ -4,6 +4,26 @@
 **Docente Responsable:** Ing. María Fernanda Vázquez  
 **Jefatura de Trabajos Prácticos:** Ing. Fabio D. Argañaraz  
 
+[![Autograding Tests - TP2](https://github.com/UNJU-Teoria-de-Sistemas-Operativos/TP2/actions/workflows/classroom.yml/badge.svg)](https://github.com/UNJU-Teoria-de-Sistemas-Operativos/TP2/actions/workflows/classroom.yml)
+
+---
+
+## 📂 Estructura del Repositorio
+
+```text
+TP2/
+├── .github/
+│   └── workflows/
+│       └── classroom.yml      # Workflow de GitHub Actions (Autograding CI disparado por push del alumno)
+├── index.html                 # Aplicación web interactiva con simuladores embebidos
+├── styles.css                 # Diseño visual Glassmorphism Dark/Light
+├── app.js                     # Motor interactivo de ejercicios, simuladores y exportación JSON
+├── rubric_tp2.json            # Rúbrica pública protegida con hashes criptográficos SHA-256
+├── autograder_tp2.py          # Script de evaluación automática (consola, --json y GitHub Summary)
+├── README.md                  # Guía de estudio, mapa bibliográfico y tutorial Git/Actions
+└── .gitignore                 # Reglas de exclusión para Git
+```
+
 ---
 
 ## 🎯 Objetivos de Aprendizaje
@@ -44,15 +64,18 @@ Para resolver este trabajo práctico disponen de la bibliografía oficial provis
 La modalidad de resolución y entrega es **estrictamente individual**:
 
 ```mermaid
-graph TD
-    A[1. Entrar a UNJU-Teoria-de-Sistemas-Operativos/TP2] --> B[2. Pulsar botón Fork para copiar a tu cuenta]
-    B --> C[3. git clone de tu Fork personal]
+flowchart TD
+    A[1. Entrar al repo de cátedra] --> B[2. Botón Fork a tu cuenta personal]
+    B --> C[3. git clone en tu máquina]
     C --> D[4. Abrir index.html en navegador]
-    D --> E[5. Experimentar con los simuladores y resolver los 10 ejercicios]
+    D --> E[5. Experimentar con simuladores y resolver ejercicios]
     E --> F[6. Exportar 'respuestas_tp2.json' al 100%]
-    F --> G[7. Autoevaluar con autograder_tp2.py]
-    G --> H[8. git add . && git commit && git push]
-    H --> I[9. Entrega completada en tu repositorio Fork]
+    F --> G[7. Autoevaluación local opcional con autograder_tp2.py]
+    F --> H[8. git add respuestas_tp2.json && git commit && git push]
+    H --> I{9. GitHub Actions Autograding}
+    I -->|❌ Discrepancias / Fallo| J[Ver logs en pestaña Actions & Bibliografía]
+    J --> D
+    I -->|✅ Aprobado| K[Entrega completada y verificada exitosamente 🏆]
 ```
 
 ### Paso 1: Hacer Fork del Repositorio
@@ -81,8 +104,8 @@ Al completar el 100%, pulsa el botón **"💾 Exportar Respuestas (.json)"**. Se
 > [!IMPORTANT]
 > Guarda o copia el archivo `respuestas_tp2.json` en la raíz de la carpeta de tu repositorio clonado `TP2/`.
 
-### Paso 5: Autoevaluación Local (Recomendado)
-Antes de entregar, verifica tu calificación ejecutando el autoevaluador de consola:
+### Paso 5: Autoevaluación Local (Opcional)
+Antes de entregar, si tienes Python 3 instalado, puedes verificar tu calificación ejecutando el autoevaluador de consola:
 
 ```bash
 python autograder_tp2.py respuestas_tp2.json
@@ -93,7 +116,7 @@ Si deseas la salida estructurada en JSON:
 python autograder_tp2.py respuestas_tp2.json --json
 ```
 
-### Paso 6: Guardar Cambios y Subir a GitHub
+### Paso 6: Guardar Cambios y Subir a GitHub (Git Push)
 En tu terminal dentro de la carpeta `TP2/`, ejecuta:
 
 ```bash
@@ -101,6 +124,18 @@ git add respuestas_tp2.json
 git commit -m "Entrega TP2 - [Tu Nombre y Apellido]"
 git push origin main
 ```
+
+### Paso 7: Autoevaluación Automática en GitHub Actions (Verificación Inmediata)
+Al igual que en las actividades de **Sistemas Operativos II**, este repositorio cuenta con evaluación automática en la nube:
+1. Al hacer `git push origin main`, GitHub disparará automáticamente la Action **Autograding Tests - TP2**.
+2. En la lista de commits de tu repositorio o en la pestaña **Actions**, observarás de inmediato el resultado:
+   - `✅ (Check verde)`: Tu trabajo práctico está aprobado y la solución es correcta.
+   - `❌ (Cruz roja)`: Se detectaron discrepancias conceptuales o no se encontró el archivo `respuestas_tp2.json`.
+3. **¿Qué hacer si ves una cruz roja?**
+   - Haz clic en la cruz roja o ve a la pestaña **Actions** y abre la ejecución de la prueba.
+   - Allí encontrarás el resumen detallado en Markdown con los ejercicios con discrepancia y las páginas exactas de los libros de cátedra para repasar.
+   - Ajusta tus respuestas en `index.html`, vuelve a exportar `respuestas_tp2.json`, y realiza un nuevo `git push origin main`.
+
 
 ---
 

@@ -1,0 +1,39 @@
+name: GitHub Classroom Autograding - TP 2
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  evaluacion-autograding:
+    name: Autograding Tests - TP2
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
+    steps:
+      - name: Checkout del Repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Entorno Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verificar Existencia de Respuestas
+        run: |
+          if [ ! -f "respuestas_tp2.json" ]; then
+            echo "::error file=respuestas_tp2.json::No se encontró el archivo 'respuestas_tp2.json'. Recuerda resolver los ejercicios en index.html, pulsar 'Exportar Respuestas' y colocar el archivo JSON en la raíz del repositorio antes de hacer git push."
+            exit 1
+          fi
+
+      - name: Ejecutar Suite de Evaluación Automática
+        run: |
+          python autograder_tp2.py respuestas_tp2.json
